@@ -33,9 +33,9 @@ class Distributor:
 
     def __init__(self, targeted_profit, quotes=[]):
         self._uptodate = False
-        self.targeted_profit = targeted_profit
-        self.quotes = quotes
-        self.bets = [0] * len(quotes)
+        self._targeted_profit = targeted_profit
+        self._quotes = quotes
+        self._bets = [0] * len(quotes)
 
     def _compute_total_bet(self, bets):
         return sum(bets)
@@ -57,30 +57,30 @@ class Distributor:
         """
         Main method that does all the bets calculation.
         """
-        if self._uptodate or not self.quotes:
+        if self._uptodate or not self._quotes:
             return
         all_effective_profit_ok = False
         # recall all rounds if some effective profits are not ok
         while not all_effective_profit_ok:
-            for round_n in range(len(self.quotes)):
+            for round_n in range(len(self._quotes)):
                 effective_profit = 0
                 adjustement_bet = 0
-                while (effective_profit < self.targeted_profit):
-                    total_bet = self._compute_total_bet(self.bets)
-                    initial_bet = ((self.targeted_profit + total_bet)
-                        / self.quotes[round_n])
+                while (effective_profit < self._targeted_profit):
+                    total_bet = self._compute_total_bet(self._bets)
+                    initial_bet = ((self._targeted_profit + total_bet)
+                        / self._quotes[round_n])
                     initial_bet = round(initial_bet)
                     bet = initial_bet + adjustement_bet
-                    self.bets[round_n] = bet
+                    self._bets[round_n] = bet
                     # updates the total bet from bets
-                    total_bet = self._compute_total_bet(self.bets)
-                    effective_profit = ((bet * self.quotes[round_n])
+                    total_bet = self._compute_total_bet(self._bets)
+                    effective_profit = ((bet * self._quotes[round_n])
                         - total_bet)
                     adjustement_bet += 1
 
                 all_effective_profit_ok = \
                     self._check_all_effective_profit_ok(
-                        self.quotes, self.bets, self.targeted_profit)
+                        self._quotes, self._bets, self._targeted_profit)
         self._uptodate = True
 
     def add_quote(self, quote):
@@ -89,26 +89,26 @@ class Distributor:
 
     def clear_quotes(self):
         self._uptodate = False
-        self.quotes = []
+        self._quotes = []
 
     def get_bets(self):
         if not self._uptodate:
             self._compute_all_bets()
-        return self.bets
+        return self._bets
 
     def get_total_bet(self):
         return sum(self.get_bets())
 
     def get_quotes(self):
-        return self.quotes
+        return self._quotes
 
     def get_effective_profits(self):
         tmp_bets = self.get_bets()
         total_bet = self._compute_total_bet(tmp_bets)
         effective_profits = []
-        for i in range(len(self.quotes)):
+        for i in range(len(self._quotes)):
             bet = tmp_bets[i]
-            quote = self.quotes[i]
+            quote = self._quotes[i]
             effective_profit = ((bet * quote) - total_bet)
             effective_profits.append(effective_profit)
         return effective_profits
