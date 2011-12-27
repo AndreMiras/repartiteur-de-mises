@@ -33,7 +33,7 @@ class Distributor:
 
     def __init__(self, targeted_profit, quotes=[]):
         self._uptodate = False
-        self._targeted_profit = targeted_profit
+        self._targeted_profit = float(targeted_profit)
         self._quotes = quotes
         self._bets = [0] * len(quotes)
 
@@ -63,21 +63,16 @@ class Distributor:
         # recall all rounds if some effective profits are not ok
         while not all_effective_profit_ok:
             for round_n in range(len(self._quotes)):
-                effective_profit = 0
-                adjustement_bet = 0
-                while (effective_profit < self._targeted_profit):
-                    total_bet = self._compute_total_bet(self._bets)
-                    initial_bet = ((self._targeted_profit + total_bet)
-                        / self._quotes[round_n])
-                    initial_bet = round(initial_bet)
-                    bet = initial_bet + adjustement_bet
-                    self._bets[round_n] = bet
-                    # updates the total bet from bets
-                    total_bet = self._compute_total_bet(self._bets)
-                    effective_profit = ((bet * self._quotes[round_n])
-                        - total_bet)
-                    adjustement_bet += 1
-
+                # in case of a another while (not all_effective_profit_ok) loop
+                self._bets[round_n] = 0
+                total_bet = self._compute_total_bet(self._bets)
+                bet = (self._targeted_profit + total_bet) \
+                    / (self._quotes[round_n] - 1)
+                bet = math.ceil(bet)
+                bet = int(bet)
+                self._bets[round_n] = bet
+                # verifies that previous bets are still ok even after
+                # the the total_bet value increased (by the last bet value)
                 all_effective_profit_ok = \
                     self._check_all_effective_profit_ok(
                         self._quotes, self._bets, self._targeted_profit)
