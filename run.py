@@ -31,7 +31,7 @@ class MyForm(QtGui.QWidget):
         self.quotes_row = 1
         self.bets_row = 2
         self.effective_profits_row = 3
-        self.init_columns()
+        self.clear_content()
 
     def clear_content(self):
         self.ui.totalBetLabel.setNum(0)
@@ -52,9 +52,10 @@ class MyForm(QtGui.QWidget):
         Smaller default column width.
         """
         for i in range(self.ui.tableWidget.columnCount()):
-            self.ui.tableWidget. setColumnWidth(i, 45)
+            self.ui.tableWidget.setColumnWidth(i, 45)
             nTableWidgetItem = QtGui.QTableWidgetItem(str(i + 1))
-            self.ui.tableWidget.setItem(self.n_pmu_row, i, nTableWidgetItem)
+            self.ui.tableWidget.setItem(
+                self.n_pmu_row, i, nTableWidgetItem)
 
     def init_n_pmu_columns(self):
         """
@@ -80,7 +81,8 @@ class MyForm(QtGui.QWidget):
         """
         indexes = []
         for i in range(self.ui.tableWidget.columnCount()):
-            tableWidgetItem = self.ui.tableWidget.item(self.quotes_row, i)
+            tableWidgetItem = self.ui.tableWidget.item(
+                self.quotes_row, i)
             if (tableWidgetItem and tableWidgetItem.text()):
                 indexes.append(i)
         return indexes
@@ -110,8 +112,12 @@ class MyForm(QtGui.QWidget):
             used_index = used_indexes[i]
             effective_profit = effective_profits[i]
             betTableWidgetItem = QtGui.QTableWidgetItem(str(bet))
+            betTableWidgetItem.setFlags(
+                QtCore.Qt.ItemIsSelectable|QtCore.Qt.ItemIsEnabled)
             effectiveProfitTableWidgetItem = \
                 QtGui.QTableWidgetItem(str(effective_profit))
+            effectiveProfitTableWidgetItem.setFlags(
+                QtCore.Qt.ItemIsSelectable|QtCore.Qt.ItemIsEnabled)
             self.ui.tableWidget.setItem(
                 self.bets_row, used_index, betTableWidgetItem)
             self.ui.tableWidget.setItem(
