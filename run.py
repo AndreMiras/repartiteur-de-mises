@@ -14,10 +14,15 @@ class MyForm(QtGui.QWidget):
         QtCore.QObject.connect(self.ui.okCancelButtonBox,
             QtCore.SIGNAL("accepted()"), self.get_quotes)
         QtCore.QObject.connect(
-            self.ui.okCancelButtonBox.button(QtGui.QDialogButtonBox.Reset),
+            self.ui.okCancelButtonBox.button(
+            QtGui.QDialogButtonBox.Reset),
             QtCore.SIGNAL("clicked()"), self.clear_content)
         QtCore.QObject.connect(self.ui.tableWidget,
             QtCore.SIGNAL("itemSelectionChanged()"), self.get_quotes)
+        QtCore.QObject.connect(self.ui.integerBetCheckBox,
+            QtCore.SIGNAL("stateChanged(int)"), self.get_quotes)
+        QtCore.QObject.connect(self.ui.targetedProfitSpinBox,
+            QtCore.SIGNAL("valueChanged(int)"), self.get_quotes)
         QtCore.QObject.connect(self.ui.addColumnPushButton,
             QtCore.SIGNAL("clicked()"), self.add_empty_column)
         QtCore.QObject.connect(self.ui.removeColumnPushButton,
@@ -47,7 +52,7 @@ class MyForm(QtGui.QWidget):
         Smaller default column width.
         """
         for i in range(self.ui.tableWidget.columnCount()):
-            self.ui.tableWidget. setColumnWidth(i, 40)
+            self.ui.tableWidget. setColumnWidth(i, 45)
             nTableWidgetItem = QtGui.QTableWidgetItem(str(i + 1))
             self.ui.tableWidget.setItem(self.n_pmu_row, i, nTableWidgetItem)
 
@@ -95,6 +100,7 @@ class MyForm(QtGui.QWidget):
 
     def resolve_and_set_view(self, targeted_profit, quotes):
         dist = Distributor(targeted_profit, quotes)
+        dist.set_integer_only(self.ui.integerBetCheckBox.isChecked());
         bets = dist.get_bets()
         effective_profits = dist.get_effective_profits()
         used_indexes = self.get_used_columns_indexes()

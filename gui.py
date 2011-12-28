@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'gui.ui'
 #
-# Created: Mon Dec 26 00:38:11 2011
+# Created: Tue Dec 27 20:37:33 2011
 #      by: PyQt4 UI code generator 4.8.4
 #
 # WARNING! All changes made in this file will be lost!
@@ -89,6 +89,9 @@ class Ui_Form(object):
         self.okCancelButtonBox.setStandardButtons(QtGui.QDialogButtonBox.Ok|QtGui.QDialogButtonBox.Reset)
         self.okCancelButtonBox.setObjectName(_fromUtf8("okCancelButtonBox"))
         self.gridLayout_2.addWidget(self.okCancelButtonBox, 5, 3, 1, 1)
+        self.integerBetCheckBox = QtGui.QCheckBox(Form)
+        self.integerBetCheckBox.setObjectName(_fromUtf8("integerBetCheckBox"))
+        self.gridLayout_2.addWidget(self.integerBetCheckBox, 0, 3, 1, 1)
 
         self.retranslateUi(Form)
         QtCore.QMetaObject.connectSlotsByName(Form)
@@ -110,4 +113,5 @@ class Ui_Form(object):
         self.tableWidget.horizontalHeaderItem(5).setText(QtGui.QApplication.translate("Form", "Col", None, QtGui.QApplication.UnicodeUTF8))
         self.addColumnPushButton.setText(QtGui.QApplication.translate("Form", "+", None, QtGui.QApplication.UnicodeUTF8))
         self.removeColumnPushButton.setText(QtGui.QApplication.translate("Form", "-", None, QtGui.QApplication.UnicodeUTF8))
+        self.integerBetCheckBox.setText(QtGui.QApplication.translate("Form", "Mises entieres", None, QtGui.QApplication.UnicodeUTF8))
 

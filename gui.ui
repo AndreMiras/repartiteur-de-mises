@@ -212,6 +212,13 @@
      </property>
     </widget>
    </item>
+   <item row="0" column="3">
+    <widget class="QCheckBox" name="integerBetCheckBox">
+     <property name="text">
+      <string>Mises entieres</string>
+     </property>
+    </widget>
+   </item>
   </layout>
  </widget>
  <resources/>
